@@ -1,7 +1,7 @@
 import css from './Modal.module.css';
 
 import { createPortal } from 'react-dom';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 const modalRoot = document.querySelector('#modal_root');
 
 export const Modal = ({ dataModal, closeModal }) => {
