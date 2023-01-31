@@ -1,6 +1,6 @@
 import css from './ImageGallery.module.css';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Button } from '../Button/Button';
@@ -19,9 +19,13 @@ export const ImageGallery = ({
     setImgURL(imgURL);
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setImgURL(null);
-  };
+  }, []);
+
+  // const closeModal = () => {
+  //   setImgURL(null);
+  // };
 
   return (
     <>
