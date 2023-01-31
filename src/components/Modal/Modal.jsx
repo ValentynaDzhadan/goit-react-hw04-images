@@ -19,7 +19,7 @@ export const Modal = ({ dataModal, closeModal }) => {
     return () => {
       window.removeEventListener('keydown', closeModalByEscape);
     };
-  }, []);
+  }, [closeModal]);
 
   return createPortal(
     <div className={css.overlay} onClick={onClickModal}>
