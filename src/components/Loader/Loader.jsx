@@ -1,15 +1,18 @@
-import { Audio } from 'react-loader-spinner';
+import { ColorRing } from 'react-loader-spinner';
+import css from './Loader.module.css';
 
 export const Loader = () => {
   return (
-    <Audio
-      height="80"
-      width="80"
-      radius="9"
-      color="green"
-      ariaLabel="loading"
-      wrapperStyle
-      wrapperclass
-    />
+    <div className={css.loaderContainer}>
+      <ColorRing
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="blocks-loading"
+        wrapperStyle={{}}
+        wrapperClass="blocks-wrapper"
+        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+      />
+    </div>
   );
 };

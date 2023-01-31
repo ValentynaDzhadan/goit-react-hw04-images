@@ -1,93 +1,48 @@
 import css from './ImageGallery.module.css';
-import { Component, createRef } from 'react';
+
+import { useState } from 'react';
 
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Button } from '../Button/Button';
 import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 
-import { getSearchPicsAPI } from '../../utils/picsApi';
-
-export class ImageGallery extends Component {
-  state = {
-    pics: [],
-    page: 1,
-    query: '',
-    error: null,
-    isLoading: false,
-    imgURL: null,
+export const ImageGallery = ({
+  updatePage,
+  pics,
+  isLoading,
+  total,
+  bottomRef,
+}) => {
+  const [imgURL, setImgURL] = useState(null);
+  const openModal = imgURL => {
+    setImgURL(imgURL);
   };
 
-  static getDerivedStateFromProps(newProps, state) {
-    if (newProps.query !== state.query) {
-      return { page: 1, query: newProps.query };
-    }
-    return null;
-  }
-
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.query !== this.props.query) {
-      this.getSearchPics();
-    }
-
-    if (prevState.page !== this.state.page && this.state.page !== 1) {
-      this.getSearchPics();
-    }
-
-    if (this.state.pics !== prevState.pics) {
-      //scroll
-      this.picsItemRef.current.scrollIntoView({
-        block: 'start',
-        behavior: 'smooth',
-      });
-    }
-  }
-
-  picsItemRef = createRef();
-
-  getSearchPics = async () => {
-    this.setState({ isLoading: true });
-    try {
-      const data = await getSearchPicsAPI(this.props.query, this.state.page);
-      this.setState(prev => ({
-        pics: this.state.page === 1 ? data.hits : [...prev.pics, ...data.hits],
-      }));
-    } catch (error) {
-      this.setState({ error: error.message });
-    } finally {
-      this.setState({ isLoading: false });
-    }
+  const closeModal = () => {
+    setImgURL(null);
   };
 
-  updatePage = () => {
-    this.setState(prev => ({ page: prev.page + 1 }));
-  };
-
-  openModal = imgURL => {
-    this.setState({ imgURL: imgURL });
-  };
-
-  closeModal = () => {
-    this.setState({ imgURL: null });
-  };
-
-  render() {
-    // if (this.state.error && <h1>Error</h1>)
-    const { pics, isLoading, imgURL } = this.state;
-    return (
-      <>
-        <ul className={css.imageGallery}>
+  return (
+    <>
+      <ul className={css.imageGallery}>
+        {pics.map((el, index, arr) => (
           <ImageGalleryItem
-            pics={pics}
-            picsItemRef={this.picsItemRef}
-            openModal={this.openModal}
+            key={`${el.id} ${Date.now()}`}
+            el={el}
+            openModal={openModal}
+            ref={arr.length - 12 === index ? bottomRef : null}
           />
-        </ul>
-        {isLoading && <Loader />}
-        {pics.length > 0 && <Button onClick={this.updatePage} />}
-        {/* {imgURL && <Modal />} */}
-        {imgURL && <Modal dataModal={imgURL} closeModal={this.closeModal} />}
-      </>
-    );
-  }
-}
+        ))}
+      </ul>
+      {isLoading && <Loader />}
+
+      {pics.length > 0 && pics.length < total && !isLoading && (
+        <>
+          <Button onClick={updatePage} />
+        </>
+      )}
+      {imgURL && <Modal dataModal={imgURL} closeModal={closeModal} />}
+    </>
+  );
+};

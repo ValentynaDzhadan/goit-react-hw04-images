@@ -1,5 +1,3 @@
-// https://pixabay.com/api/?q=cat&page=1&key=31677603-5140c7199bf175a8ce775458a&image_type=photo&orientation=horizontal&per_page=12
-
 import axios from 'axios';
 
 const API_KEY = '31677603-5140c7199bf175a8ce775458a';
