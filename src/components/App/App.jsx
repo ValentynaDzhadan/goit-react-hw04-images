@@ -12,7 +12,6 @@ export const App = () => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [pics, setPic] = useState([]);
-  //const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [total, setTotal] = useState(0);
 
@@ -21,14 +20,12 @@ export const App = () => {
       setIsLoading(true);
       try {
         const data = await getSearchPicsAPI(query, page);
-        console.log(data);
         if (!data.hits.length) {
           throw new Error('There are no images with this search query');
         }
         setPic(prev => (page === 1 ? data.hits : [...prev, ...data.hits]));
         setTotal(data.totalHits);
       } catch (error) {
-        console.log('error');
         toast.error(error.message);
       } finally {
         setIsLoading(false);

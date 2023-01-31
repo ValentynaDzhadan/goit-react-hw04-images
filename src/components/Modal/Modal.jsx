@@ -9,17 +9,17 @@ export const Modal = ({ dataModal, closeModal }) => {
     event.currentTarget === event.target && closeModal();
   };
 
-  useEffect(() => {
-    const closeModalByEscape = e => {
-      if (e.code === 'Escape') {
-        closeModal();
-      }
-    };
-    window.addEventListener('keydown', closeModalByEscape);
-    return () => {
-      window.removeEventListener('keydown', closeModalByEscape);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const closeModalByEscape = e => {
+  //     if (e.code === 'Escape') {
+  //       closeModal();
+  //     }
+  //   };
+  //   window.addEventListener('keydown', closeModalByEscape);
+  //   return () => {
+  //     window.removeEventListener('keydown', closeModalByEscape);
+  //   };
+  // }, []);
 
   return createPortal(
     <div className={css.overlay} onClick={onClickModal}>
