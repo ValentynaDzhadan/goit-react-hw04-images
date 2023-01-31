@@ -9,7 +9,7 @@ export const Modal = ({ dataModal, closeModal }) => {
     event.currentTarget === event.target && closeModal();
   };
 
-  useEffect(closeModal => {
+  useEffect(() => {
     const closeModalByEscape = e => {
       if (e.code === 'Escape') {
         closeModal();
