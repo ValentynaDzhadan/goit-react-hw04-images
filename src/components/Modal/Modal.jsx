@@ -1,7 +1,7 @@
 import css from './Modal.module.css';
 
 import { createPortal } from 'react-dom';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 const modalRoot = document.querySelector('#modal_root');
 
 export const Modal = ({ dataModal, closeModal }) => {
@@ -9,17 +9,17 @@ export const Modal = ({ dataModal, closeModal }) => {
     event.currentTarget === event.target && closeModal();
   };
 
-  // useEffect(() => {
-  //   const closeModalByEscape = e => {
-  //     if (e.code === 'Escape') {
-  //       closeModal();
-  //     }
-  //   };
-  //   window.addEventListener('keydown', closeModalByEscape);
-  //   return () => {
-  //     window.removeEventListener('keydown', closeModalByEscape);
-  //   };
-  // }, []);
+  useEffect(closeModal => {
+    const closeModalByEscape = e => {
+      if (e.code === 'Escape') {
+        closeModal();
+      }
+    };
+    window.addEventListener('keydown', closeModalByEscape);
+    return () => {
+      window.removeEventListener('keydown', closeModalByEscape);
+    };
+  }, []);
 
   return createPortal(
     <div className={css.overlay} onClick={onClickModal}>
